@@ -44,5 +44,38 @@ namespace veebRogovski.Controllers
                 Console.WriteLine("See on logi nr " + i);
             }
         }
+
+        // GET: api/Primitiivid/random/{min}/{max}
+        [HttpGet("random/{min}/{max}")]
+        public int RandomNumber(int min, int max)
+        {
+            Random rand = new Random();
+            return rand.Next(min, max + 1);
+        }
+
+        // GET: api/Primitiivid/age/{birthYear}/{birthMonth}/{birthDay}
+        [HttpGet("age/{birthYear}/{birthMonth}/{birthDay}")]
+        public string CalculateAge(int birthYear, int birthMonth, int birthDay)
+        {
+            int currentYear = DateTime.Now.Year;
+            int age = currentYear - birthYear;
+
+            DateTime birthDate = new DateTime(birthYear, birthMonth, birthDay);
+
+            DateTime thisYearBirthday = new DateTime(currentYear, birthMonth, birthDay);
+
+
+            bool hasHadBirthdayThisYear = DateTime.Now >= thisYearBirthday;
+
+            if (hasHadBirthdayThisYear)
+            {
+                return $"You are {age} years old.";
+            }
+            else
+            {
+                return $"You are {age - 1} years old.";
+            }
+        }
+
     }
 }
