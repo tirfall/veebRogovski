@@ -17,13 +17,15 @@ namespace veebRogovski.Controllers
         };
 
 
-        // /tooted
+        // api/tooted
         [HttpGet]
         public List<Toode> Get()
         {
             return _tooted;
         }
 
+
+        // GET api/tooted/kustuta/{index}
         [HttpGet("kustuta/{index}")]
         public List<Toode> Delete(int index)
         {
@@ -31,6 +33,7 @@ namespace veebRogovski.Controllers
             return _tooted;
         }
 
+        // GET api/tooted/kustuta2/{index}
         [HttpGet("kustuta2/{index}")]
         public string Delete2(int index)
         {
@@ -38,6 +41,7 @@ namespace veebRogovski.Controllers
             return "Kustutatud!";
         }
 
+        // GET api/tooted/lisa/{id}/{nimi}/{hind}/{aktiivne}
         [HttpGet("lisa/{id}/{nimi}/{hind}/{aktiivne}")]
         public List<Toode> Add(int id, string nimi, double hind, bool aktiivne)
         {
@@ -46,7 +50,8 @@ namespace veebRogovski.Controllers
             return _tooted;
         }
 
-        [HttpGet("lisa")] // GET /tooted/lisa?id=1&nimi=Koola&hind=1.5&aktiivne=true
+        [HttpGet("lisa")]
+        // GET api/tooted/lisa?id=1&nimi=Koola&hind=1.5&aktiivne=true
         public List<Toode> Add2([FromQuery] int id, [FromQuery] string nimi, [FromQuery] double hind, [FromQuery] bool aktiivne)
         {
             Toode toode = new Toode(id, nimi, hind, aktiivne);
@@ -54,7 +59,8 @@ namespace veebRogovski.Controllers
             return _tooted;
         }
 
-        [HttpGet("hind-dollaritesse/{kurss}")] // GET /tooted/hind-dollaritesse/1.5
+        [HttpGet("hind-dollaritesse/{kurss}")]
+        // GET api/tooted/hind-dollaritesse/1.5
         public List<Toode> Dollaritesse(double kurss)
         {
             for (int i = 0; i < _tooted.Count; i++)
@@ -66,7 +72,8 @@ namespace veebRogovski.Controllers
 
         // või foreachina:
 
-        [HttpGet("hind-dollaritesse2/{kurss}")] // GET /tooted/hind-dollaritesse2/1.5
+        [HttpGet("hind-dollaritesse2/{kurss}")]
+        // GET api/tooted/hind-dollaritesse2/1.5
         public List<Toode> Dollaritesse2(double kurss)
         {
             foreach (var t in _tooted)
@@ -75,6 +82,50 @@ namespace veebRogovski.Controllers
             }
 
             return _tooted;
+        }
+
+        // Kustutab kõik tooted
+        [HttpGet("kustuta-kõik")]
+        public List<Toode> DeleteAll()
+        {
+            _tooted.Clear();
+            return _tooted;
+        }
+
+        // Muudab kõikide toodete aktiivsuse väära peale
+        [HttpGet("aktiivne-vääraks")]
+        public List<Toode> SetAllToFalse()
+        {
+            foreach (var t in _tooted)
+            {
+                t.IsActive = false;
+            }
+            return _tooted;
+        }
+
+        // Tagastab ühe toote - vastavalt kelle järjekorranumber on lisatud URL muutujasse
+        [HttpGet("toode/{index}")]
+        public Toode GetToode(int index)
+        {
+            if (index >= 0 && index < _tooted.Count)
+            {
+                return _tooted[index];
+            }
+            else
+            {
+                throw new IndexOutOfRangeException("Toode ei eksisteeri");
+            }
+        }
+
+        // Tagastab ühe toote - kõige suurema hinnaga toote
+        [HttpGet("kõige-suurem-hind")]
+        public Toode GetToodeWithHighestPrice()
+        {
+            if (_tooted.Count == 0)
+            {
+                throw new InvalidOperationException("Tooteid ei eksisteeri");
+            }
+            return _tooted.OrderByDescending(t => t.Price).FirstOrDefault();
         }
     }
 }
