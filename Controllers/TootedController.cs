@@ -50,8 +50,8 @@ namespace veebRogovski.Controllers
             return _tooted;
         }
 
-        [HttpGet("lisa")]
-        // GET api/tooted/lisa?id=1&nimi=Koola&hind=1.5&aktiivne=true
+        [HttpGet("lisa2")]
+        // GET api/tooted/lisa2?id=1&nimi=Koola&hind=1.5&aktiivne=true
         public List<Toode> Add2([FromQuery] int id, [FromQuery] string nimi, [FromQuery] double hind, [FromQuery] bool aktiivne)
         {
             Toode toode = new Toode(id, nimi, hind, aktiivne);
