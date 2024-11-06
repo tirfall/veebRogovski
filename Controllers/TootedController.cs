@@ -26,7 +26,7 @@ namespace veebRogovski.Controllers
 
 
         // GET api/tooted/kustuta/{index}
-        [HttpGet("kustuta/{index}")]
+        [HttpDelete("kustuta/{index}")]
         public List<Toode> Delete(int index)
         {
             _tooted.RemoveAt(index);
@@ -34,7 +34,7 @@ namespace veebRogovski.Controllers
         }
 
         // GET api/tooted/kustuta2/{index}
-        [HttpGet("kustuta2/{index}")]
+        [HttpDelete("kustuta2/{index}")]
         public string Delete2(int index)
         {
             _tooted.RemoveAt(index);
@@ -42,7 +42,7 @@ namespace veebRogovski.Controllers
         }
 
         // GET api/tooted/lisa/{id}/{nimi}/{hind}/{aktiivne}
-        [HttpGet("lisa/{id}/{nimi}/{hind}/{aktiivne}")]
+        [HttpPost("lisa/{id}/{nimi}/{hind}/{aktiivne}")]
         public List<Toode> Add(int id, string nimi, double hind, bool aktiivne)
         {
             Toode toode = new Toode(id, nimi, hind, aktiivne);
@@ -50,7 +50,7 @@ namespace veebRogovski.Controllers
             return _tooted;
         }
 
-        [HttpGet("lisa2")]
+        [HttpPost("lisa2")]
         // GET api/tooted/lisa2?id=1&nimi=Koola&hind=1.5&aktiivne=true
         public List<Toode> Add2([FromQuery] int id, [FromQuery] string nimi, [FromQuery] double hind, [FromQuery] bool aktiivne)
         {
@@ -59,7 +59,7 @@ namespace veebRogovski.Controllers
             return _tooted;
         }
 
-        [HttpGet("hind-dollaritesse/{kurss}")]
+        [HttpPatch("hind-dollaritesse/{kurss}")]
         // GET api/tooted/hind-dollaritesse/1.5
         public List<Toode> Dollaritesse(double kurss)
         {
@@ -72,7 +72,7 @@ namespace veebRogovski.Controllers
 
         // või foreachina:
 
-        [HttpGet("hind-dollaritesse2/{kurss}")]
+        [HttpPatch("hind-dollaritesse2/{kurss}")]
         // GET api/tooted/hind-dollaritesse2/1.5
         public List<Toode> Dollaritesse2(double kurss)
         {
@@ -85,7 +85,7 @@ namespace veebRogovski.Controllers
         }
 
         // Kustutab kõik tooted
-        [HttpGet("kustuta-kõik")]
+        [HttpDelete("kustuta-kõik")]
         public List<Toode> DeleteAll()
         {
             _tooted.Clear();
@@ -93,7 +93,7 @@ namespace veebRogovski.Controllers
         }
 
         // Muudab kõikide toodete aktiivsuse väära peale
-        [HttpGet("aktiivne-vääraks")]
+        [HttpPatch("aktiivne-vääraks")]
         public List<Toode> SetAllToFalse()
         {
             foreach (var t in _tooted)
