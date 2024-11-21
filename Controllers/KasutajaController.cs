@@ -19,6 +19,7 @@ namespace veebRogovski.Controllers
         {
             return Ok(_kasutajad);
         }
+
         [HttpDelete("{id}")]
         public ActionResult<List<Kasutaja>> Delete(int id)
         {
